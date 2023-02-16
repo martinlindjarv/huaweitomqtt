@@ -7,7 +7,10 @@ Based on script from https://github.com/ccorderor/huawei-sun2000-modbus-mqtt
 Things needed:
 - Enable Modbus in inverter (NB! installer account needed)
   - Settings -> Communication configuration -> Dongle parameter settings -> Modbus-TCP
-  - 3 choices: 1) Disable; Enable (restricted) [available to 1 IP address] and Enable (unrestricted) [available to same subnet]
+  - 3 choices: 
+     - Disable
+     - Enable (restricted) [available to 1 IP address]
+     - Enable (unrestricted) [available to same subnet]
 - VM in same Subnet
 - python3 installed
 - pip installed
