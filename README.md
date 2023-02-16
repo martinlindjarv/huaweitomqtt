@@ -12,7 +12,7 @@ Things needed:
 - python3 installed
 - pip installed
 - download files from this repo
-- install requirements: 'pip3 install -r requirements'
+- install requirements: 'pip3 install -r requirements.txt'
 - create settings file to /etc/huaweitomqtt/settings.conf with content:
 ````
 # Config file for service huawetomqtt!
