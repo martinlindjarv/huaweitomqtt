@@ -41,16 +41,23 @@ inverter.wait = 1
 def modbusAccess():
 
     # parameters that are taken immidiately
-    vars_inmediate = ['pv_01_voltage', 'pv_01_current', 'pv_02_voltage','pv_02_current', 'input_power', 'grid_voltage', 
+    vars_inmediate = ['pv_01_voltage', 'pv_01_current', 'pv_02_voltage','pv_02_current', 
+    'input_power', 'grid_voltage', 
     'grid_current', 'active_power', 
-    'grid_A_voltage', 'active_grid_A_current', 'grid_B_voltage', 'active_grid_B_current', 'grid_C_voltage', 'active_grid_C_current', 'power_meter_active_power']
+    'grid_A_voltage', 'active_grid_A_current', 'grid_B_voltage', 'active_grid_B_current', 'grid_C_voltage', 'active_grid_C_current', 'power_meter_active_power',
+    'storage_charge_discharge_power','storage_state_of_capacity'
+    ]
 
     # parameters after approx every 90 seconds
     vars = ['day_active_power_peak', 'efficiency', 'internal_temperature', 'insulation_resistance', 'device_status', 'fault_code', 'accumulated_yield_energy',
-    'daily_yield_energy', 'grid_exported_energy', 'grid_accumulated_energy']
+    'daily_yield_energy',
+    'grid_exported_energy', 'grid_accumulated_energy',
+    'nb_optimizers',
+    'storage_working_mode_a', 'storage_total_charge', 'storage_total_discharge', 'storage_unit_1_battery_temperature', 'storage_unit_1_working_mode_b']
 
     cont = 0
     while True:
+
 
         for i in vars_inmediate:
             try:
@@ -78,7 +85,7 @@ def modbusAccess():
             cont = 0
 
         cont += 1
-        time.sleep(1)
+        time.sleep(5)
 
 def on_connect(client, userdata, flags, rc):
     if rc==0:
