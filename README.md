@@ -20,6 +20,9 @@ Things needed:
 ````
 # Config file for service huawetomqtt!
 INVERTER_IP=192.168.1.1
+INVERTER_PORT=6607 #default:6607, can be set to 502
+INVERTER_SLAVE=0 #default: 0
+
 MQTT_HOST=192.168.1.2
 MQTT_PORT=1883
 MQTT_USER=username
