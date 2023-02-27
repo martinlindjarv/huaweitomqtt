@@ -12,8 +12,8 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 inverter_ip = os.getenv('INVERTER_IP', '192.168.1.1')
-inverter_port = os.getenv('INVERTER_PORT', '6607')
-inverter_slave = os.getenv('INVERTER_SLAVE', '0')
+inverter_port = int(os.getenv('INVERTER_PORT', '6607'))
+inverter_slave = int(os.getenv('INVERTER_SLAVE', '0'))
 
 ## MQTT parameters from environment and setting defaults here if not provided!
 mqtt_host = os.getenv('MQTT_HOST', '192.168.1.1')
