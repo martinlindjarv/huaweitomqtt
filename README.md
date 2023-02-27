@@ -16,7 +16,7 @@ Things needed:
 - pip installed
 - download files from this repo
 - install requirements: 'pip3 install -r requirements.txt'
-- create settings file to /etc/huaweitomqtt/settings.conf with content:
+- create settings file to /etc/huawei2mqtt/settings.conf with content:
 ````
 # Config file for service huawetomqtt!
 INVERTER_IP=192.168.1.1
