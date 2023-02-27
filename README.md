@@ -16,12 +16,12 @@ Things needed:
 - pip installed
 - download files from this repo
 - install requirements: 'pip3 install -r requirements.txt'
-- create settings file to /etc/huawei2mqtt/settings.conf with content:
+- create settings file to /etc/huawei2mqtt/settings.conf with content (default values):
 ````
 # Config file for service huawetomqtt!
 INVERTER_IP=192.168.1.1
-INVERTER_PORT=6607 #default:6607, can be set to 502
-INVERTER_SLAVE=0 #default: 0
+INVERTER_PORT=6607 
+INVERTER_SLAVE=0 
 
 MQTT_HOST=192.168.1.2
 MQTT_PORT=1883
