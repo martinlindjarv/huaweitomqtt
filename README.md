@@ -28,5 +28,5 @@ MQTT_PORT=1883
 MQTT_USER=username
 MQTT_PASS=password
 ````
-- create systemd service /lib/systemd/system/huaweitomqtt.service
+- create systemd service /lib/systemd/system/huawei2mqtt.service
 
