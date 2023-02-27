@@ -1,0 +1,11 @@
+[Unit]
+Description=Service to launch huaweisolar script
+After=multi-user.target
+
+[Service]
+Type=idle
+EnvironmentFile=/etc/huawei2mqtt/settings.conf
+ExecStart=/usr/bin/python3 /opt/huawei2mqtt/huaweisolar.py
+
+[Install]
+WantedBy= multi-user.target
