@@ -5,7 +5,7 @@ Get Huawei ModBusTCP data and send it to MQTT
 Based on script from https://github.com/ccorderor/huawei-sun2000-modbus-mqtt
 
 Things needed:
-- Enable Modbus in inverter (NB! installer account needed)
+- Enable Modbus in inverter (NB! installer account needed) _OR install separate GW for modbus to connect directly to inverter wifi!_
   - Settings -> Communication configuration -> Dongle parameter settings -> Modbus-TCP
   - 3 choices: 
      - Disable
