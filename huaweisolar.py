@@ -12,6 +12,8 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 inverter_ip = os.getenv('INVERTER_IP', '192.168.1.1')
+inverter_port = os.getenv('INVERTER_PORT', '6607')
+inverter_slave = os.getenv('INVERTER_SLAVE', '0')
 
 ## MQTT parameters from environment and setting defaults here if not provided!
 mqtt_host = os.getenv('MQTT_HOST', '192.168.1.1')
@@ -21,8 +23,8 @@ mqtt_password = os.getenv('MQTT_PASS', 'password')
 mqtt_base_topic =  os.getenv('MQTT_BASE_TOPIC', 'solar/NodeHuawei/')
 
 
-inverter = huawei_solar.HuaweiSolar(inverter_ip, port=502, slave=1)
-inverter._slave = 1
+inverter = huawei_solar.HuaweiSolar(inverter_ip, port=inverter_port, slave=inverter_slave)
+inverter._slave = inverter_slave
 inverter.wait = 1
 
 #vars = ['state_1','state_2', 'state_3', 'alarm_1', 'alarm_2', 'alarm_3', 'pv_01_voltage', 'pv_01_current', 'pv_02_voltage','pv_02_current', 'input_power', 'grid_voltage', 
