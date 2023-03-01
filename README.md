@@ -1,4 +1,4 @@
-# huaweitomqtt
+# huawei2mqtt
 
 Get Huawei ModBusTCP data and send it to MQTT
 
