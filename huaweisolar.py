@@ -67,8 +67,8 @@ def modbusAccess():
                 log.debug(i)
                 log.debug(mid)
                 log.debug("---")
-
-                clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
+                if(str(mid.value) != 21474836.47):
+                  clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
             except:
                 pass
 
@@ -79,8 +79,8 @@ def modbusAccess():
                     log.debug(i)
                     log.debug(mid)
                     log.debug("---")
-
-                    clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
+                    if(str(mid.value) != 21474836.47):
+                      clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
                 except:
                     pass
 
