@@ -70,7 +70,7 @@ def modbusAccess():
                 try:
                     mid_float = float(mid.value)
                     if(mid_float <= 214748364):
-                        clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
+                        clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
                 except Exception as e:
                     log.error("mid_value convert to float failed %s", e)
                     pass
@@ -87,8 +87,8 @@ def modbusAccess():
                     try:
                         mid_float = float(mid.value)
                         if (mid_float <= 214748364):
-                            clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
-                  except Exception as e:
+                            clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
+                    except Exception as e:
                       log.error("mid_value convert to float failed %s", e)
                       pass
                 except:
