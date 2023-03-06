@@ -59,7 +59,7 @@ def modbusAccess():
 
     cont = 0
     while True:
-
+    bad_values = ["21474836.47", "2147483647" ,  "214748364.7"]
 
         for i in vars_inmediate:
             try:
@@ -67,7 +67,7 @@ def modbusAccess():
                 log.debug(i)
                 log.debug(mid)
                 log.debug("---")
-                if(str(mid.value) not in ["21474836.47", "2147483647" ,  "214748364.7"]):
+                if(str(mid.value) not in bad_values):
                   clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
             except:
                 pass
@@ -79,7 +79,7 @@ def modbusAccess():
                     log.debug(i)
                     log.debug(mid)
                     log.debug("---")
-                    if (str(mid.value) not in ["21474836.47", "2147483647", "214748364.7"]):
+                    if (str(mid.value) not in bad_values ):
                       clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
                 except:
                     pass
