@@ -59,7 +59,7 @@ def modbusAccess():
 
     cont = 0
     while True:
-    bad_values = ["21474836.47", "2147483647" ,  "214748364.7"]
+        bad_values = ["21474836.47", "2147483647" ,  "214748364.7"]
 
         for i in vars_inmediate:
             try:
