@@ -67,8 +67,8 @@ def modbusAccess():
                 log.debug(i)
                 log.debug(mid)
                 log.debug("---")
-                if(str(mid.value) != "21474836.47" or str(mid.value) != "2147483647" or str(mid.value) != "214748364.7"):
-                  clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
+                if(str(mid.value) not in ["21474836.47", "2147483647" ,  "214748364.7"]):
+                  clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
             except:
                 pass
 
@@ -79,8 +79,8 @@ def modbusAccess():
                     log.debug(i)
                     log.debug(mid)
                     log.debug("---")
-                    if(str(mid.value) != "21474836.47" or str(mid.value) != "2147483647" or  str(mid.value) != "214748364.7"):
-                      clientMQTT.publish(topic=mqtt_base_topic+i, payload= str(mid.value), qos=1, retain=False)
+                    if (str(mid.value) not in ["21474836.47", "2147483647", "214748364.7"]):
+                      clientMQTT.publish(topic=mqtt_base_topic+i, payload=str(mid.value), qos=1, retain=False)
                 except:
                     pass
 
