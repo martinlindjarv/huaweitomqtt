@@ -27,6 +27,7 @@ MQTT_HOST=192.168.1.2
 MQTT_PORT=1883
 MQTT_USER=username
 MQTT_PASS=password
+MQTT_BASE_TOPIC='solar/NodeHuawei/'
 ````
 - create systemd service /lib/systemd/system/huawei2mqtt.service
 
