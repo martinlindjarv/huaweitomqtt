@@ -31,3 +31,19 @@ MQTT_BASE_TOPIC='solar/NodeHuawei/'
 ````
 - create systemd service /lib/systemd/system/huawei2mqtt.service
 
+## docker compose
+
+  huawei2mqtt:
+    image: huawei2mqtt:latest
+    restart: unless-stopped
+    container_name: huawei2mqtt
+    environment:
+      INVERTER_IP: 192.168.1.1
+      INVERTER_PORT: 6607
+      INVERTER_SLAVE: 0
+      MQTT_HOST: 192.168.1.2
+      MQTT_PORT: 1883
+      MQTT_USER: username
+      MQTT_PASS: password
+      MQTT_BASE_TOPIC: 'solar/NodeHuawei/'
+      URL: http://localhost/get.php
