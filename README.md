@@ -46,4 +46,4 @@ MQTT_BASE_TOPIC='solar/NodeHuawei/'
       MQTT_USER: username
       MQTT_PASS: password
       MQTT_BASE_TOPIC: 'solar/NodeHuawei/'
-      URL: http://localhost/get.php
+      URL_ADDR: http://localhost/get.php
