@@ -27,7 +27,7 @@ RUN groupadd --gid 10001 appgroup \
         appuser
 
 # Copy application with appropriate ownership
-COPY --chown=appuser:appgroup huawei2mqtt.py .
+COPY --chown=appuser:appgroup huaweisolar.py huawei2mqtt.py
 
 # Ensure the runtime user can read and execute the environment
 RUN chown -R appuser:appgroup /opt/venv /app
