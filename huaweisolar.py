@@ -3,8 +3,13 @@ from huawei_solar import HuaweiSolar
 import huawei_solar
 import paho.mqtt.client
 import os
+import urllib.request
 
 import logging
+
+URL = "http://localhost/script.php"
+
+
 FORMAT = ('%(asctime)-15s %(threadName)-15s '
           '%(levelname)-8s %(module)-15s:%(lineno)-8s %(message)s')
 logging.basicConfig(format=FORMAT)
@@ -75,7 +80,7 @@ def modbusAccess():
     'grid_A_voltage', 'active_grid_A_current', 'grid_B_voltage', 'active_grid_B_current', 'grid_C_voltage', 'active_grid_C_current', 'power_meter_active_power', 'active_grid_A_power', 'active_grid_B_power', 'active_grid_C_power',
     'storage_charge_discharge_power','storage_state_of_capacity', 'meter_status', 'daily_yield_energy', 'total_yield', 'day_active_power_peak', 'efficiency','active_grid_power_factor', 'power_factor', 
     'grid_exported_energy', 'grid_accumulated_energy', 'device_status', 'fault_code', 'accumulated_yield_energy', 'storage_unit_1_current_day_charge_capacity', 'storage_unit_1_current_day_discharge_capacity', 
-    'storage_maximum_charge_power', 'storage_maximum_charging_power'
+    'storage_maximum_charge_power', 'storage_maximum_charging_power','grid_frequency','active_grid_frequency'
     ]
 
     # parameters after approx every 90 seconds
@@ -133,8 +138,6 @@ def modbusAccess():
                     grid_accumulated_energy = float(mid.value)
                   if(i == "grid_exported_energy"):
                     grid_exported_energy = float(mid.value)
-                  if(i == "grid_accumulated_energy"):
-                    grid_accumulated_energy = float(mid.value)
 
                   if(i == "grid_A_voltage"):
                     grid_A_voltage = float(mid.value)
@@ -247,25 +250,28 @@ def modbusAccess():
         # send to MQTT as W
         clientMQTT.publish(topic=mqtt_base_topic+"active_power_phases_from_grid", payload=str(int(active_power_phases_from_grid)), qos=1, retain=False)
         clientMQTT.publish(topic=mqtt_base_topic+"active_power_phases_to_grid", payload=str(int(active_power_phases_to_grid)), qos=1, retain=False)
+        
         # send to mqtt as kW
         clientMQTT.publish(topic=mqtt_base_topic+"active_power_phases_from_grid_kw", payload=str(round(((active_power_phases_from_grid)/1000),3)), qos=1, retain=False)
         clientMQTT.publish(topic=mqtt_base_topic+"active_power_phases_to_grid_kw", payload=str(round(((active_power_phases_to_grid)/1000),3)), qos=1, retain=False)
 
+        # send info to URL
+        urllib.request.urlopen(URL+"?active_power_phases_from_grid="+str(int(active_power_phases_from_grid))+"&active_power_phases_to_grid="+str(int(active_power_phases_to_grid))+"&from_grid_energy="+str(grid_accumulated_energy)+"&to_grid_energy="+str(grid_exported_energy)+"&pv_power="+str(round(pv_power,2))+"&active_grid_A_power="+str(active_grid_A_power)+"&active_grid_B_power="+str(active_grid_B_power)+"&active_grid_C_power="+str(active_grid_C_power))
 
         if(grid_A_voltage != None and active_grid_A_current != None):
           grid_A_power = grid_A_voltage * active_grid_A_current * power_factor
           clientMQTT.publish(topic=mqtt_base_topic+"grid_A_power", payload=str(round(grid_A_power,3)), qos=1, retain=False)
 
-          # if negative, export to grid and if positive import from grid
-          if(grid_A_power <= 0): # export to grid if negative
-            grid_A_power_to_grid = grid_A_power * -1
+          # if negative, import from grid and if positive export grid
+          if(grid_A_power >= 0): 
+            grid_A_power_to_grid = grid_A_power
             grid_A_power_from_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_A_power_to_grid", payload=str(round(grid_A_power_to_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
             clientMQTT.publish(topic=mqtt_base_topic+"grid_A_power_from_grid", payload=str("0"), qos=1, retain=False)
 
-          else: # import from grid if positive
-            grid_A_power_from_grid = grid_A_power
+          else: 
+            grid_A_power_from_grid = grid_A_power * -1
             grid_A_power_to_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_A_power_from_grid", payload=str(round(grid_A_power_from_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
@@ -275,16 +281,15 @@ def modbusAccess():
           grid_B_power = grid_A_voltage * active_grid_B_current * power_factor
           clientMQTT.publish(topic=mqtt_base_topic+"grid_B_power", payload=str(round(grid_B_power,3)), qos=1, retain=False)
 
-          # if negative, export to grid and if positive import from grid
-          if(grid_B_power <= 0): # export to grid if negative
-            grid_B_power_to_grid = grid_B_power * -1
+          if(grid_B_power >= 0): 
+            grid_B_power_to_grid = grid_B_power
             grid_B_power_from_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_B_power_to_grid", payload=str(round(grid_B_power_to_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
             clientMQTT.publish(topic=mqtt_base_topic+"grid_B_power_from_grid", payload=str("0"), qos=1, retain=False)
 
-          else: # import from grid if positive
-            grid_B_power_from_grid = grid_B_power
+          else: 
+            grid_B_power_from_grid = grid_B_power * -1
             grid_B_power_to_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_B_power_from_grid", payload=str(round(grid_B_power_from_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
@@ -295,16 +300,15 @@ def modbusAccess():
           grid_C_power = grid_C_voltage * active_grid_C_current * power_factor
           clientMQTT.publish(topic=mqtt_base_topic+"grid_C_power", payload=str(round(grid_C_power,3)), qos=1, retain=False)
 
-          # if negative, export to grid and if positive import from grid
-          if(grid_C_power <= 0): # export to grid if negative
-            grid_C_power_to_grid = grid_C_power * -1
+          if(grid_C_power >= 0): 
+            grid_C_power_to_grid = grid_C_power
             grid_C_power_from_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_C_power_to_grid", payload=str(round(grid_C_power_to_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
             clientMQTT.publish(topic=mqtt_base_topic+"grid_C_power_from_grid", payload=str("0"), qos=1, retain=False)
 
-          else: # import from grid if positive
-            grid_C_power_from_grid = grid_C_power
+          else: 
+            grid_C_power_from_grid = grid_C_power * -1
             grid_C_power_to_grid = 0 # define it as zero, so it wouldn't fail later!
             clientMQTT.publish(topic=mqtt_base_topic+"grid_C_power_from_grid", payload=str(round(grid_C_power_from_grid,3)), qos=1, retain=False)
             # lets send power_from_grid as zero
@@ -342,8 +346,7 @@ def modbusAccess():
         grid_phases_power_from_grid_sum_kw = round(((grid_A_power_from_grid + grid_B_power_from_grid + grid_C_power_from_grid)/1000),3)
         clientMQTT.publish(topic=mqtt_base_topic+"grid_phases_power_from_grid_sum_kw", payload=str(grid_phases_power_from_grid_sum_kw), qos=1, retain=False)
 
-
-
+        # urllib.request.urlopen(URL+"?cur_house_ph_A="+str(round((current_house_consumption_phase_A/1000),3))+"&cur_house_ph_B="+str(round((current_house_consumption_phase_B/1000),3))+"&cur_house_ph_C="+str(round((current_house_consumption_phase_C/1000),3)))
 
 def on_connect(client, userdata, flags, rc):
     if rc==0:
@@ -353,7 +356,6 @@ def on_connect(client, userdata, flags, rc):
         log.info("MQTT base topic: %s", mqtt_base_topic)
     else:
         log.info("MQTT FAILURE. ERROR CODE: %s",rc)
-        
 
 paho.mqtt.client.Client.connected_flag=False#create flag in class
 
