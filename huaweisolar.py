@@ -7,7 +7,7 @@ import urllib.request
 
 import logging
 
-URL = "http://localhost/script.php"
+URL = os.getenv('URL_ADDR', "http://localhost/script.php")
 
 
 FORMAT = ('%(asctime)-15s %(threadName)-15s '
