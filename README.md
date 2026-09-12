@@ -34,7 +34,7 @@ MQTT_BASE_TOPIC='solar/NodeHuawei/'
 ## docker compose
 ````
   huawei2mqtt:
-    image: huawei2mqtt:latest
+    image: ghcr.io/martinlindjarv/huaweitomqtt:latest
     restart: unless-stopped
     container_name: huawei2mqtt
     environment:
